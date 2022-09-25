@@ -15,4 +15,10 @@ public class FormattedPriceInfo {
     private String currency;
     private FormattedPrice formattedBidPrice;
     private FormattedPrice formattedOfferPrice;
+
+    public FormattedPriceInfo(FormattedPriceInfo priceInfo) {
+        this.currency = priceInfo.currency;
+        this.formattedBidPrice = priceInfo.formattedBidPrice;
+        this.formattedOfferPrice = priceInfo.formattedOfferPrice;
+    }
 }

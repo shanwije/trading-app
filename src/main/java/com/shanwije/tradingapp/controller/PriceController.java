@@ -22,6 +22,14 @@ public class PriceController {
     PriceService priceService;
     ResponseWrapper<Object> responseWrapper;
 
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<ResponseEntity<ResponseWrapper>> findAll() {
+        return priceService.findAll()
+                .collectList()
+                .map(prices -> ResponseEntity.ok(responseWrapper.setData(prices)));
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Mono<ResponseEntity<ResponseWrapper>> GetFormattedPrice(@Valid @RequestBody RowPriceInfo rowPriceInfo) {

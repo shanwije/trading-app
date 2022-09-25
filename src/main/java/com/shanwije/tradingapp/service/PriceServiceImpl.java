@@ -6,6 +6,7 @@ import com.shanwije.tradingapp.repository.PriceRepository;
 import com.shanwije.tradingapp.usecase.converter.PriceConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
@@ -20,5 +21,11 @@ public class PriceServiceImpl implements PriceService {
         FormattedPriceInfo formattedPriceInfo = PriceConverter.convert(rowPriceInfo);
         repository.save(formattedPriceInfo);
         return Mono.just(formattedPriceInfo);
+    }
+
+    @Override
+    public Flux<FormattedPriceInfo> findAll() {
+        return repository.findAll().flatMap(prices ->
+                Mono.just(new FormattedPriceInfo(prices)));
     }
 }

@@ -1,11 +1,3 @@
-#FROM openjdk:11.0.3-jdk
-#RUN apt-get update && apt-get install bash
-#RUN mkdir -p /usr/app/
-#ENV PROJECT_HOME /usr/app/
-#COPY target/backpacker-0.0.2-SNAPSHOT.jar $PROJECT_HOME/backpacker-0.0.2-SNAPSHOT.jar
-#WORKDIR $PROJECT_HOME
-#CMD ["java", "-jar", "./backpacker-0.0.2-SNAPSHOT.jar"]
-
 ### BUILD image
 FROM maven:3-jdk-11 as builder
 #Copy Custom Maven settings
@@ -16,7 +8,6 @@ WORKDIR /build
 COPY pom.xml /build
 #Download all required dependencies into one layer
 RUN mvn -B dependency:resolve dependency:resolve-plugins
-#RUN mvn dependency:resolve-plugins
 #Copy source code
 COPY src /build/src
 # Build application
