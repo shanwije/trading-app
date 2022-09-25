@@ -19,8 +19,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public Mono<FormattedPriceInfo> GetFormattedPriceInfo(RowPriceInfo rowPriceInfo) {
         FormattedPriceInfo formattedPriceInfo = PriceConverter.convert(rowPriceInfo);
-        repository.save(formattedPriceInfo);
-        return Mono.just(formattedPriceInfo);
+        return repository.save(formattedPriceInfo).cast(FormattedPriceInfo.class);
     }
 
     @Override
