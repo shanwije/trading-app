@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormattedPrice {
-    private double bigFigure;
-    private double dealingPrice;
-    private double fractionalPips;
+    private String bigFigure;
+    private String dealingPrice;
+    private String fractionalPips;
 }

@@ -11,30 +11,35 @@ import java.math.BigDecimal;
 public class PriceConverter {
 
     public static FormattedPriceInfo convert(RowPriceInfo rowPriceInfo) {
+        FormattedPrice bidPrice = getFormattedPrice(rowPriceInfo, rowPriceInfo.getRowBidPrice());
+        FormattedPrice offerPrice = getFormattedPrice(rowPriceInfo, rowPriceInfo.getRowOfferPrice());
+        return new FormattedPriceInfo(bidPrice, offerPrice);
+    }
 
-        BigDecimal bp = BigDecimal.valueOf(rowPriceInfo.getRowBidPrice());
+    private static FormattedPrice getFormattedPrice(RowPriceInfo rowPriceInfo, BigDecimal rowPrice) {
+
+        //set multiplier using display format value
         String displayFormat = rowPriceInfo.getDisplayFormat();
 
         for (DisplayFormat format : DisplayFormat.values()) {
             if(format.getName().equals(displayFormat)){
-                bp = bp.multiply(format.getMultiplier());
+                rowPrice = rowPrice.multiply(format.getMultiplier());
             }
         }
 
-        bp = bp.setScale(rowPriceInfo.getScale());
+        //add extra 0 to the end using scale value
+        rowPrice = rowPrice.setScale(rowPriceInfo.getScale());
 
         //to split into 3 parts, i find https://math.stackexchange.com/questions/2815438/finding-the-last-two-digits-of-the-given-number
         // is the most compelling way. but for easiness go with string substring method.
-
-        String bpStr = bp.toString();
-//        bpStr =  bpStr.replace(".","");
+        String bpStr = rowPrice.toString();
 
         int fplStartIndex = bpStr.length() - rowPriceInfo.getFpl();
         int dplStartIndex = bpStr.length() - (rowPriceInfo.getDpl() + rowPriceInfo.getFpl());
 
 
+        //tracking the "." location, so it won't affect the splitting of string
         int dotIndex = bpStr.indexOf(".");
-
         if(dotIndex != -1) {
             if (isInBetween(dotIndex, bpStr.length(),fplStartIndex)) {
                 fplStartIndex -= 1;
@@ -44,20 +49,12 @@ public class PriceConverter {
         }
 
         String fractionalPipStr = bpStr.substring(fplStartIndex);
-
         String dealingPriceStr = bpStr.substring(dplStartIndex, fplStartIndex);
-
         String bigFigureStr = bpStr.substring(0, dplStartIndex);
 
-
-
-        FormattedPrice fp = new FormattedPrice(bigFigure, dealingPrice, fractionalPip);
-
-
-        FormattedPriceInfo fpi = new FormattedPriceInfo(fp, fp);
-        return fpi;
-
+        return new FormattedPrice(bigFigureStr, dealingPriceStr, fractionalPipStr);
     }
+
     public static boolean isInBetween(int val,int ceiling,int floor) {
         return ceiling >= val && val >= floor;
     }

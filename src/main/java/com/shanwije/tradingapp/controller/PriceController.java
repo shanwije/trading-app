@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
+
 @Log4j2
 @RestController
 @AllArgsConstructor
@@ -19,9 +22,9 @@ public class PriceController {
     PriceService priceService;
     ResponseWrapper<Object> responseWrapper;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Mono<ResponseEntity<ResponseWrapper>> GetFormattedPrice(@RequestBody RowPriceInfo rowPriceInfo) {
+    public Mono<ResponseEntity<ResponseWrapper>> GetFormattedPrice(@Valid @RequestBody RowPriceInfo rowPriceInfo) {
         return priceService.GetFormattedPriceInfo(rowPriceInfo)
                 .map(formattedPriceInfo -> ResponseEntity.ok(responseWrapper.setData(formattedPriceInfo)))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
