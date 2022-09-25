@@ -1,9 +1,9 @@
-package com.shanwije.tradingapp.converter;
+package com.shanwije.tradingapp.usecase.converter;
 
 
 import com.shanwije.tradingapp.controller.request.DisplayFormat;
-import com.shanwije.tradingapp.controller.request.FormattedPrice;
-import com.shanwije.tradingapp.controller.request.FormattedPriceInfo;
+import com.shanwije.tradingapp.dto.FormattedPrice;
+import com.shanwije.tradingapp.dto.FormattedPriceInfo;
 import com.shanwije.tradingapp.controller.request.RowPriceInfo;
 
 import java.math.BigDecimal;
@@ -13,7 +13,7 @@ public class PriceConverter {
     public static FormattedPriceInfo convert(RowPriceInfo rowPriceInfo) {
         FormattedPrice bidPrice = getFormattedPrice(rowPriceInfo, rowPriceInfo.getRowBidPrice());
         FormattedPrice offerPrice = getFormattedPrice(rowPriceInfo, rowPriceInfo.getRowOfferPrice());
-        return new FormattedPriceInfo(bidPrice, offerPrice);
+        return new FormattedPriceInfo(rowPriceInfo.getCurrency(), bidPrice, offerPrice);
     }
 
     private static FormattedPrice getFormattedPrice(RowPriceInfo rowPriceInfo, BigDecimal rowPrice) {

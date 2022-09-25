@@ -1,9 +1,9 @@
 package com.shanwije.tradingapp.service;
 
-import com.shanwije.tradingapp.controller.request.FormattedPriceInfo;
+import com.shanwije.tradingapp.dto.FormattedPriceInfo;
 import com.shanwije.tradingapp.controller.request.RowPriceInfo;
-import com.shanwije.tradingapp.converter.Converter;
-import com.shanwije.tradingapp.converter.PriceConverter;
+import com.shanwije.tradingapp.repository.PriceRepository;
+import com.shanwije.tradingapp.usecase.converter.PriceConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -12,13 +12,13 @@ import reactor.core.publisher.Mono;
 @Service
 public class PriceServiceImpl implements PriceService {
 
-    /**
-     * @param rowPriceInfo
-     * @return
-     */
+    PriceRepository repository;
+
+
     @Override
     public Mono<FormattedPriceInfo> GetFormattedPriceInfo(RowPriceInfo rowPriceInfo) {
         FormattedPriceInfo formattedPriceInfo = PriceConverter.convert(rowPriceInfo);
+        repository.save(formattedPriceInfo);
         return Mono.just(formattedPriceInfo);
     }
 }
