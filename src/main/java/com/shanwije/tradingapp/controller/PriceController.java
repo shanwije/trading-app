@@ -30,7 +30,7 @@ public class PriceController {
                 .map(prices -> ResponseEntity.ok(responseWrapper.setData(prices)));
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT, consumes = {"application/json"})
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Mono<ResponseEntity<ResponseWrapper>> GetFormattedPrice(@Valid @RequestBody RowPriceInfo rowPriceInfo) {
         return priceService.GetFormattedPriceInfo(rowPriceInfo)
