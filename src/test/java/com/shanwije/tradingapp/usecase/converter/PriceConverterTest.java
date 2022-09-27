@@ -46,13 +46,14 @@ class PriceConverterTest {
     }
 
     @Test
-    void removeTrailingZeroes() {
-        assertEquals("2", PriceConverter.removeTrailingZeroes("200"));
-        assertEquals("2.12", PriceConverter.removeTrailingZeroes("2.1200"));
-        assertEquals("2.12001", PriceConverter.removeTrailingZeroes("2.12001"));
-        assertEquals("002", PriceConverter.removeTrailingZeroes("002"));
-        assertEquals("1002", PriceConverter.removeTrailingZeroes("1002"));
-        assertEquals("123.", PriceConverter.removeTrailingZeroes("123."));
+    void removeTrailingZeroesAndDot() {
+        assertEquals("2", PriceConverter.removeTrailingZeroesAndDot("200"));
+        assertEquals("2.12", PriceConverter.removeTrailingZeroesAndDot("2.1200"));
+        assertEquals("2.12001", PriceConverter.removeTrailingZeroesAndDot("2.12001"));
+        assertEquals("002", PriceConverter.removeTrailingZeroesAndDot("002"));
+        assertEquals("1002", PriceConverter.removeTrailingZeroesAndDot("1002"));
+        assertEquals("123", PriceConverter.removeTrailingZeroesAndDot("123.00"));
+        assertEquals("123", PriceConverter.removeTrailingZeroesAndDot("123."));
     }
 
     @Test
@@ -63,9 +64,5 @@ class PriceConverterTest {
         assertEquals(true, PriceConverter.isInBetween(2, 2, 2));
         assertEquals(true, PriceConverter.isInBetween(2, 2, 1));
         assertEquals(true, PriceConverter.isInBetween(2, 5, 2));
-    }
-
-    @Test
-    void getFormattedPrice() {
     }
 }

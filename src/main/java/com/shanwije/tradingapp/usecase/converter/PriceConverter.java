@@ -51,16 +51,19 @@ public class PriceConverter {
         }
 
         String fractionalPipStr = bpStr.substring(fplStartIndex);
-        fractionalPipStr = removeTrailingZeroes(fractionalPipStr);
+        fractionalPipStr = removeTrailingZeroesAndDot(fractionalPipStr);
         String dealingPriceStr = bpStr.substring(dplStartIndex, fplStartIndex);
         String bigFigureStr = bpStr.substring(0, dplStartIndex);
 
         return new FormattedPrice(bigFigureStr, dealingPriceStr, fractionalPipStr);
     }
 
-    public static String removeTrailingZeroes(String s) {
+    public static String removeTrailingZeroesAndDot(String s) {
         StringBuilder sb = new StringBuilder(s);
         while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0') {
+            sb.setLength(sb.length() - 1);
+        }
+        if(sb.charAt(sb.length() -1) == '.'){
             sb.setLength(sb.length() - 1);
         }
         return sb.toString();
