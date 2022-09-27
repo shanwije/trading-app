@@ -49,10 +49,19 @@ public class PriceConverter {
         }
 
         String fractionalPipStr = bpStr.substring(fplStartIndex);
+        fractionalPipStr = removeTrailingZeroes(fractionalPipStr);
         String dealingPriceStr = bpStr.substring(dplStartIndex, fplStartIndex);
         String bigFigureStr = bpStr.substring(0, dplStartIndex);
 
         return new FormattedPrice(bigFigureStr, dealingPriceStr, fractionalPipStr);
+    }
+
+    public static String removeTrailingZeroes(String s) {
+        StringBuilder sb = new StringBuilder(s);
+        while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0') {
+            sb.setLength(sb.length() - 1);
+        }
+        return sb.toString();
     }
 
     public static boolean isInBetween(int val,int ceiling,int floor) {
