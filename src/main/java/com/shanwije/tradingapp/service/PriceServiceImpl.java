@@ -1,7 +1,7 @@
 package com.shanwije.tradingapp.service;
 
-import com.shanwije.tradingapp.dto.FormattedPriceInfo;
 import com.shanwije.tradingapp.controller.request.RowPriceInfo;
+import com.shanwije.tradingapp.dto.FormattedPriceInfo;
 import com.shanwije.tradingapp.repository.PriceRepository;
 import com.shanwije.tradingapp.usecase.converter.PriceConverter;
 import lombok.AllArgsConstructor;

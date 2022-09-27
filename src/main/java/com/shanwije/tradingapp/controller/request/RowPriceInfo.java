@@ -3,7 +3,6 @@ package com.shanwije.tradingapp.controller.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;

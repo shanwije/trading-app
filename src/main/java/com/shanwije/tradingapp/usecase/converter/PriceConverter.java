@@ -2,9 +2,9 @@ package com.shanwije.tradingapp.usecase.converter;
 
 
 import com.shanwije.tradingapp.controller.request.DisplayFormat;
+import com.shanwije.tradingapp.controller.request.RowPriceInfo;
 import com.shanwije.tradingapp.dto.FormattedPrice;
 import com.shanwije.tradingapp.dto.FormattedPriceInfo;
-import com.shanwije.tradingapp.controller.request.RowPriceInfo;
 
 import java.math.BigDecimal;
 
@@ -24,7 +24,7 @@ public class PriceConverter {
         String displayFormat = rowPriceInfo.getDisplayFormat();
 
         for (DisplayFormat format : DisplayFormat.values()) {
-            if(format.getName().equals(displayFormat)){
+            if (format.getName().equals(displayFormat)) {
                 rowPrice = rowPrice.multiply(format.getMultiplier());
             }
         }
@@ -42,8 +42,8 @@ public class PriceConverter {
 
         //tracking the "." location, so it won't affect the splitting of string
         int dotIndex = bpStr.indexOf(".");
-        if(dotIndex != -1) {
-            if (isInBetween(dotIndex, bpStr.length(),fplStartIndex)) {
+        if (dotIndex != -1) {
+            if (isInBetween(dotIndex, bpStr.length(), fplStartIndex)) {
                 fplStartIndex -= 1;
             } else if (isInBetween(dotIndex, fplStartIndex, dplStartIndex)) {
                 dplStartIndex -= 1;
@@ -66,7 +66,7 @@ public class PriceConverter {
         return sb.toString();
     }
 
-    public static boolean isInBetween(int val,int ceiling,int floor) {
+    public static boolean isInBetween(int val, int ceiling, int floor) {
         return ceiling >= val && val >= floor;
     }
 }
