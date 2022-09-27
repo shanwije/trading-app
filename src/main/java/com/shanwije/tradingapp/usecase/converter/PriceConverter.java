@@ -9,6 +9,8 @@ import com.shanwije.tradingapp.controller.request.RowPriceInfo;
 import java.math.BigDecimal;
 
 public class PriceConverter {
+    private PriceConverter() {
+    }
 
     public static FormattedPriceInfo convert(RowPriceInfo rowPriceInfo) {
         FormattedPrice bidPrice = getFormattedPrice(rowPriceInfo, rowPriceInfo.getRowBidPrice());
@@ -16,7 +18,7 @@ public class PriceConverter {
         return new FormattedPriceInfo(rowPriceInfo.getCurrency(), bidPrice, offerPrice);
     }
 
-    private static FormattedPrice getFormattedPrice(RowPriceInfo rowPriceInfo, BigDecimal rowPrice) {
+    protected static FormattedPrice getFormattedPrice(RowPriceInfo rowPriceInfo, BigDecimal rowPrice) {
 
         //set multiplier using display format value
         String displayFormat = rowPriceInfo.getDisplayFormat();
