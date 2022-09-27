@@ -26,6 +26,7 @@ public class PriceConverter {
         for (DisplayFormat format : DisplayFormat.values()) {
             if (format.getName().equals(displayFormat)) {
                 rowPrice = rowPrice.multiply(format.getMultiplier());
+                break;
             }
         }
 
@@ -50,10 +51,15 @@ public class PriceConverter {
             }
         }
 
-        String fractionalPipStr = bpStr.substring(fplStartIndex);
-        fractionalPipStr = removeTrailingZeroesAndDot(fractionalPipStr);
-        String dealingPriceStr = bpStr.substring(dplStartIndex, fplStartIndex);
-        String bigFigureStr = bpStr.substring(0, dplStartIndex);
+        String fractionalPipStr;
+        if (fplStartIndex >= 0) {
+            fractionalPipStr = removeTrailingZeroesAndDot(bpStr.substring(fplStartIndex));
+        } else {
+            fractionalPipStr = "";
+        }
+        String dealingPriceStr = (dplStartIndex >= 0 && fplStartIndex >= 0)
+                ? bpStr.substring(dplStartIndex, fplStartIndex) : "";
+        String bigFigureStr = dplStartIndex >= 0 ? bpStr.substring(0, dplStartIndex) : "";
 
         return new FormattedPrice(bigFigureStr, dealingPriceStr, fractionalPipStr);
     }
@@ -63,7 +69,7 @@ public class PriceConverter {
         while (sb.length() > 0 && sb.charAt(sb.length() - 1) == '0') {
             sb.setLength(sb.length() - 1);
         }
-        if(sb.charAt(sb.length() -1) == '.'){
+        if (sb.length() > 0 && sb.charAt(sb.length() - 1) == '.') {
             sb.setLength(sb.length() - 1);
         }
         return sb.toString();
